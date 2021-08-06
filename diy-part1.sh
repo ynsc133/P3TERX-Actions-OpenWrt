@@ -24,3 +24,5 @@ git clone https://github.com/AlexZhuo/luci-app-bandwidthd.git
 git clone https://github.com/tty228/luci-app-serverchan.git
 git clone https://github.com/small-5/luci-app-adblock-plus.git
 git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
+mv ./openwrt/feeds/luci/collections/luci/Makefile ./openwrt/feeds/luci/collections/luci/Makefile.bak
+cp ./Makefile ./openwrt/feeds/luci/collections/luci
