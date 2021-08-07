@@ -60,6 +60,35 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        
+    - name: 自定义第三方插件
+      run: |
+          cd ./openwrt/package
+          mkdir openwrt-packages
+          cd openwrt-packages
+          git clone https://github.com/esirplayground/luci-app-poweroff.git
+          git clone https://github.com/sirpdboy/luci-app-autotimeset.git
+          git clone https://github.com/e2guardian/e2guardian.git
+          git clone https://github.com/houzhenggang/sqm-qos.git
+          git clone https://github.com/rosywrt/nft-qos.git
+          git clone https://github.com/lxc/lxc.git
+          git clone https://github.com/nwcdlabs/ipsecvpn.git
+          git clone https://github.com/ehang-io/nps.git
+          git clone https://github.com/destan19/OpenAppFilter.git
+          git clone https://github.com/meyerd/n2n.git
+          git clone https://github.com/Aslin-Ameng/luci-app-access-control.git
+          git clone https://github.com/cminyard/ser2net.git
+          git clone https://github.com/jerrykuku/luci-app-ttnode.git
+          git clone https://github.com/beilsn/luci-app-vssr-plus.git
+          git clone https://github.com/ynsc133/luci-app-ssr-plus.git
+          git clone https://github.com/ynsc133/luci-app-passwall.git
+          git clone https://github.com/kiddin9/openwrt-bypass.git
+          git clone https://github.com/SoftEtherVPN/SoftEtherVPN.git
+          git clone https://github.com/tty228/luci-app-serverchan.git
+          git clone https://github.com/small-5/luci-app-adblock-plus.git
+          git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
+          git clone https://github.com/jerrykuku/luci-theme-argon.git
+          git clone https://github.com/tgraf/bmon.git
 
     - name: Load custom feeds
       run: |
@@ -67,7 +96,7 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
-
+          
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
