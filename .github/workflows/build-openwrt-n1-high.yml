@@ -90,20 +90,6 @@ jobs:
         git clone https://github.com/jerrykuku/luci-theme-argon.git
         git clone https://github.com/tgraf/bmon.git
 
-    - name: 自定义设置
-      run: |
-        rm -rf ./OpenWrt/package/lean/luci-theme-argon
-        mv ./openwrt/feeds/luci/collections/luci/Makefile ./openwrt/feeds/luci/collections/luci/Makefile.bak
-        cp ./Makefile ./openwrt/feeds/luci/collections/luci
-        mv ./openwrt/package/base-files/files/etc/shadow ./openwrt/package/base-files/files/etc/shadow.bk
-        cp ./shadow ./openwrt/package/base-files/files/etc
-        mv ./openwrt/package/feeds/luci/luci-base/root/www/index.html ./openwrt/package/feeds/luci/luci-base/root/www/index.html.bk
-        cp ./index.html ./openwrt/package/feeds/luci/luci-base/root/www
-        mv ./openwrt/package/base-files/files/bin/config_generate ./openwrt/package/base-files/files/bin/config_generate.bk
-        cp ./config_generate ./openwrt/package/base-files/files/bin
-        mv ./package/kernel/mac80211/files/lib/wifi/mac80211.sh ./package/kernel/mac80211/files/lib/wifi/mac80211.sh.bk
-        cp ./mac80211.sh ./package/kernel/mac80211/files/lib/wifi/mac80211.sh
-
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
