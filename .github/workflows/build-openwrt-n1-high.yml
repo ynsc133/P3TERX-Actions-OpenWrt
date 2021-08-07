@@ -107,6 +107,10 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
+    - name: mv files
+      run: |
+      mv ./Makefile shadow index.html config_generate mac80211.sh ./openwrt
+
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
