@@ -18,5 +18,3 @@ src-git nas https://github.com/linkease/nas-packages.git;master
 src-git liuran001_packages https://github.com/liuran001/openwrt-packages
 src-git garypang13 https://github.com/garypang13/openwrt-packages
 src-git xepher https://github.com/jerrykuku/luci-app-ttnode.git
-src-git opentopd  https://github.com/sirpdboy/sirpdboy-package
-src-git jerryk https://github.com/jerrykuku/openwrt-package
