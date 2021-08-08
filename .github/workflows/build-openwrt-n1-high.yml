@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build OpenWrt n1 high
+name: Build OpenWrt N1 high
 
 on:
   repository_dispatch:
@@ -60,38 +60,49 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-
-    - name: add applications
+        
+    - name: 自定义第三方插件
       run: |
-          cd ./openwrt/package
-          git clone https://github.com/siropboy/sirpdboy-package package/sirpdboy-package
-          git clone https://github.com/jerrykuku/openwrt-package jerrykuku-package
-          rm -rf ./lean/luci-theme-argon
-          mkdir openwrt-packages
-          cd openwrt-packages
-          git clone https://github.com/esirplayground/luci-app-poweroff.git
-          git clone https://github.com/sirpdboy/luci-app-autotimeset.git
-          git clone https://github.com/e2guardian/e2guardian.git
-          git clone https://github.com/houzhenggang/sqm-qos.git
-          git clone https://github.com/rosywrt/nft-qos.git
-          git clone https://github.com/lxc/lxc.git
-          git clone https://github.com/nwcdlabs/ipsecvpn.git
-          git clone https://github.com/ehang-io/nps.git
-          git clone https://github.com/destan19/OpenAppFilter.git
-          git clone https://github.com/meyerd/n2n.git
-          git clone https://github.com/Aslin-Ameng/luci-app-access-control.git
-          git clone https://github.com/cminyard/ser2net.git
-          git clone https://github.com/jerrykuku/luci-app-ttnode.git
-          git clone https://github.com/beilsn/luci-app-vssr-plus.git
-          git clone https://github.com/ynsc133/luci-app-ssr-plus.git
-          git clone https://github.com/ynsc133/luci-app-passwall.git
-          git clone https://github.com/kiddin9/openwrt-bypass.git
-          git clone https://github.com/SoftEtherVPN/SoftEtherVPN.git
-          git clone https://github.com/tty228/luci-app-serverchan.git
-          git clone https://github.com/small-5/luci-app-adblock-plus.git
-          git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
-          git clone https://github.com/jerrykuku/luci-theme-argon.git
-          git clone https://github.com/tgraf/bmon.git
+        cd ./openwrt/package
+        mkdir openwrt-packages
+        cd openwrt-packages
+        git clone https://github.com/esirplayground/luci-app-poweroff.git
+        git clone https://github.com/sirpdboy/luci-app-autotimeset.git
+        git clone https://github.com/e2guardian/e2guardian.git
+        git clone https://github.com/houzhenggang/sqm-qos.git
+        git clone https://github.com/rosywrt/nft-qos.git
+        git clone https://github.com/lxc/lxc.git
+        git clone https://github.com/nwcdlabs/ipsecvpn.git
+        git clone https://github.com/ehang-io/nps.git
+        git clone https://github.com/destan19/OpenAppFilter.git
+        git clone https://github.com/meyerd/n2n.git
+        git clone https://github.com/Aslin-Ameng/luci-app-access-control.git
+        git clone https://github.com/cminyard/ser2net.git
+        git clone https://github.com/jerrykuku/luci-app-ttnode.git
+        git clone https://github.com/beilsn/luci-app-vssr-plus.git
+        git clone https://github.com/ynsc133/luci-app-ssr-plus.git
+        git clone https://github.com/ynsc133/luci-app-passwall.git
+        git clone https://github.com/kiddin9/openwrt-bypass.git
+        git clone https://github.com/SoftEtherVPN/SoftEtherVPN.git
+        git clone https://github.com/tty228/luci-app-serverchan.git
+        git clone https://github.com/small-5/luci-app-adblock-plus.git
+        git clone https://github.com/rufengsuixing/luci-app-adguardhome.git
+        git clone https://github.com/jerrykuku/luci-theme-argon.git
+        git clone https://github.com/tgraf/bmon.git
+
+    - name: 自定义设置
+      run: |
+        rm -rf ./OpenWrt/package/lean/luci-theme-argon
+        mv ./openwrt/feeds/luci/collections/luci/Makefile ./openwrt/feeds/luci/collections/luci/Makefile.bak
+        cp ./Makefile ./openwrt/feeds/luci/collections/luci
+        mv ./openwrt/package/base-files/files/etc/shadow ./openwrt/package/base-files/files/etc/shadow.bk
+        cp ./shadow ./openwrt/package/base-files/files/etc
+        mv ./openwrt/package/feeds/luci/luci-base/root/www/index.html ./openwrt/package/feeds/luci/luci-base/root/www/index.html.bk
+        cp ./index.html ./openwrt/package/feeds/luci/luci-base/root/www
+        mv ./openwrt/package/base-files/files/bin/config_generate ./openwrt/package/base-files/files/bin/config_generate.bk
+        cp ./config_generate ./openwrt/package/base-files/files/bin
+        mv ./package/kernel/mac80211/files/lib/wifi/mac80211.sh ./package/kernel/mac80211/files/lib/wifi/mac80211.sh.bk
+        cp ./mac80211.sh ./package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
     - name: Load custom feeds
       run: |
@@ -105,10 +116,6 @@ jobs:
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
-
-    - name: mv files
-      run: |
-      mv ./Makefile shadow index.html config_generate mac80211.sh ./openwrt
 
     - name: Load custom configuration
       run: |
